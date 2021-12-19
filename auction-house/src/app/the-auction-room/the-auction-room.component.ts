@@ -7,9 +7,12 @@ import { BiddingService } from '../bidding.service';
   styleUrls: ['./the-auction-room.component.css']
 })
 export class TheAuctionRoomComponent implements OnInit {
-  newMessage: String=""
-  messageList: String[] = [];
+  newMessage: string='';
+  obj:any={};
+  messageList: any[] = [];
   currentBidValue:Number=0
+  localUser:any
+
   // count:Number=0
   
   
@@ -19,9 +22,16 @@ export class TheAuctionRoomComponent implements OnInit {
   }
 
   ngOnInit(){
+  //   this.localUser=localStorage.getItem('user')
+  //   // var id= JSON.parse( this.localUser ).id
+  //   this.obj.id=id;
+  //   this.obj.val=this.newMessage
+  //   console.log(this.obj);
+    
+    
     this.biddingService.getNewMessage().subscribe((message: String) => {
       this.messageList.push(message);
-      console.log(this.messageList);
+      // console.log(this.messageList);
     })
     // this.biddingService.getCount().subscribe((count:Number) => {
     //   console.log(count);
@@ -31,6 +41,6 @@ export class TheAuctionRoomComponent implements OnInit {
 
   sendMessage() {
     this.biddingService.sendMessage(this.newMessage);
-    this.newMessage = "";
+    this.obj = null;
   }
 }

@@ -1,7 +1,7 @@
 var express = require("express");
 var app = express();
 const passport = require ("passport");
-var port = process.env.PORT ||7000;
+var port = process.env.PORT ||5000;
 var cors = require('cors');
 
 require("./config/passport")(passport);
@@ -46,8 +46,9 @@ io.on('connection', (socket) => {
     });
     
     socket.on('message', (msg) => {
+       
         io.emit('message', `${socket.id.substr(0, 2)} said ${msg}`);
-        // event.findOneAndUpdate({},{})
+        
       });
   });
 
