@@ -164,3 +164,14 @@ app.get('/balance',(req,res)=>{
     res.json(result)
   })
 })
+
+app.patch('/users/money',(req,res)=>{
+ 
+  user.updateOne({_id:req.body.id},{balance:req.body.balance},(err,data)=>{
+      if(err){
+          console.log(err);
+      }else(
+          res.send(data)
+      )
+  }) 
+})

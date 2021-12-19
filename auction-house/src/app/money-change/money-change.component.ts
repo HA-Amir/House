@@ -13,12 +13,14 @@ export class MoneyChangeComponent implements OnInit {
   
   paymentHandler:any = null;
   myBalance:any = null
-
+id:any=''
   constructor(private Http:HttpClient) { }
 
   ngOnInit() {
    
     this.loadStripe();
+    this.myBalance=localStorage.getItem('user')
+    this.id= JSON.parse(this.myBalance).id
   }
   loadStripe() {
       
@@ -32,11 +34,23 @@ export class MoneyChangeComponent implements OnInit {
 }
 
   
- money(e:any){
-  var money={balance:e}
-  console.log("ùùùùùùùùùùùùùùùùùùùùùùù",money)
-  this.Http.post<any>('http://localhost:5000/money',money).subscribe((myBalance)=>{
-    console.log(myBalance);})
+ money(e:any,id:any=this.id){
+  // var money={balance:e}
+  // console.log("ùùùùùùùùùùùùùùùùùùùùùùù",money)
+  // this.Http.post<any>('http://localhost:5000/money',money).subscribe((myBalance)=>{
+  //   console.log(myBalance);})
+  const body = { balance:e,_id:id};
+    
+    
+  this.Http.patch<any>('http://localhost:5000/users/money', body)
+      .subscribe({
+          next: data => {
+             
+          },
+          error: error => {
+              console.error('There was an error!', error);
+          }
+      });
 
  }
 
