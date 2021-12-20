@@ -10,7 +10,7 @@ require("./config/passport")(passport);
 const nodemailer = require ('nodemailer')
 
 
-var server = app.listen(port, ()=>{
+var server = app.listen(process.env.PORT||port, ()=>{
     console.log(`Express server listening on  ${port}`)
 })
 
@@ -159,20 +159,20 @@ app.post('/money',(req,res)=>{
  
 })
 
-app.get('/balance',(req,res)=>{
-  event.findOne().then((result)=>{
-   
-    res.json(result)
+app.get('/balance/:id',(req,res)=>{
+  user.findOne({_id:req.params.id}).then((result)=>{
+    res.send(result)
   })
 })
 
-app.patch('/users/money',(req,res)=>{
- 
-  user.updateOne({_id:req.body.id},{balance:req.body.balance},(err,data)=>{
-      if(err){
-          console.log(err);
-      }else(
-          res.send(data)
-      )
-  }) 
-})
+app.patch('/users/money/:id',(req,res)=>{
+    //  console.log(req.params.id);
+    user.findOneAndUpdate({_id:req.params.id}, { $inc: { balance:req.body.balance }},{new:true},(err,data)=>{
+        if(err){
+            console.log(err);
+        }else(
+            res.send(data)
+        )
+    }) 
+  })
+  
